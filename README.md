@@ -18,7 +18,7 @@ If we introduce damping into the system, the classic wave equation becomes:
 
 $$\frac{\partial^2u}{\partial t^2}=c^2\frac{\partial^2u}{\partial x^2}-\mu\frac{\partial u}{\partial t}$$
 
-where $\mu$ is a constant representing the magnitude of damping. This version is much harder to solve analytically.
+where $\mu$ represents the strength of damping. This version is much harder to solve analytically.
 
 ## The numerical approach
 
@@ -26,15 +26,15 @@ We are going to simulate a vibrating string. Specifically, I'd like to simulate 
 
 We're going to discretize the problem. Instead of a continuous string of constant linear density $\rho$, let's consider a massless string loaded with uniformly spaced point masses of mass $m$ spaced distance $\Delta x$ apart, such that $\frac{m}{\Delta x}=\rho$. The acceleration of each particle depends on how far it is from each of its neighbors, which gives a discrete version of the second derivative:
 
-$$\frac{d^2u_i}{dt^2}=c^2\frac{u_{i+1}+u_{i-1}-2u_i}{\Delta x^2}-\mu\frac{du_i}{dt}$$
+$$\frac{d^2u_i}{dt^2}=c^2\frac{u_{i+1}+u_{i-1}-2u_i}{\Delta x^2}-\mu_i\frac{du_i}{dt}$$
 
-If the displacement of particle $i$ is exactly halfway between its neighbors, it will experience zero acceleration (save for that caused by damping).
+If the displacement of particle $i$ is exactly halfway between its neighbors, it will experience zero acceleration (save for that caused by damping). If its displacement is greater or less than the average of its neighbors, it will experience an acceleration towards their average. The particle will also experience an acceleration proportional to the magnitude of its velocity and opposite its direction, due to damping.
 
-To work with `scipy.integrate.solve_ivp`, we will need to convert this second-order ODE into two first-order ODEs. We will do this by a variable substitution:
+## Initial condition
 
-$$v_i=\frac{du_i}{dt}$$
 
-Substituting this, along with $c=\sqrt{\frac{T}{\rho}}$:
+## Damping
 
-$$\frac{dv_i}{dt}=\frac{T}{\rho}\frac{u_{i+1}+u_{i-1}-2u_i}{\Delta x^2}-\mu v_i$$
+The effect of damping on the string's behavior is one of the more interesting 
 
+Palm muting is an important guitar technique, especially in rock and metal music, which involves the guitarist holding the side of their picking hand against the strings near the bridge to mute them. This can be approximated by a small value of $\mu$ near the end of the 
