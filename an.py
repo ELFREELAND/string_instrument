@@ -4,8 +4,14 @@ import numpy as np
 import scipy as sp
 
 import pickle
+import sys
 
-with open("har3.dat", "rb") as f:
+if len(sys.argv) < 2:
+    raise TypeError("Expected a file name, e.g. 'python an.py open.dat'")
+
+fname = sys.argv[1]   
+
+with open(fname, "rb") as f:
     s_har2 = pickle.load(f)
 
 f, ax = plt.subplots()
