@@ -2,3 +2,5 @@
 **/.ipynb_checkpoints
 #ignore dat files containing numerical results because they're usually too large to go in github
 *.dat
+#ignore audio files
+*.wav

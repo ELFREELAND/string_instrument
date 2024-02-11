@@ -46,6 +46,10 @@ We can choose to pluck the string close to the bridge or closer to the middle, w
 
 ![image](example_graphs/p0_n.png)
 
+Alternatively, instead of pulling and releasing the string, we can quickly strike it. This is a common technique among bass players, both upright and electric; and it's also the mechanism behind the sound of a piano. This condition can be modelled by zero initial displacement, but a local spike in initial velocity:
+
+![image](example_graphs/p0_h.png)
+
 ## Damping
 
 The effect of damping on the string's behavior is one of the more interesting things to investigate here. We'll look at two important cases: palm muting and harmonics.
@@ -74,4 +78,12 @@ $$\frac{d^2u_i}{dt^2}=c^2\frac{u_{i+1}+u_{i-1}-2u_i}{\Delta x^2}-\mu_i\frac{du_i
 
 If the displacement of particle $i$ is exactly halfway between its neighbors, it will experience zero acceleration (save for that caused by damping). If its displacement is greater or less than the average of its neighbors, it will experience an acceleration towards their average. The particle will also experience an acceleration proportional to the magnitude of its velocity and opposite its direction, due to damping.
 
-We have replaced our single 2nd-order PDE with a system of $n$ 2nd-order ODEs. To proceed further, we'll need to turn $n$ 2nd-order ODEs into $2n$ 1st-order ODEs, since the solver we're using only works on 1st-order equations.
+We have replaced our single 2nd-order PDE with a system of $n$ 2nd-order ODEs. However, the solver we'll be using only operates on 1st-order equations. To proceed further, we'll need to turn $n$ 2nd-order ODEs into $2n$ 1st-order ODEs.
+
+We can do this with the following substitution:
+
+$$v_i=\frac{du_i}{dt}$$
+
+$$\frac{dv_i}{dt}=\frac{T}{\rho}\frac{u_{i+1}+u_{i-1}-2u_i}{\Delta x^2}-\mu_i v_i$$
+
+We will have $n$ copies of the first equation, and $n$ copies of the second.
