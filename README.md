@@ -16,7 +16,9 @@ $$c=\sqrt{\frac{T}{\rho}}$$
 
 This equation can be solved without too much trouble (see any introductory physics or differential equations textbook). The fact that this is a linear PDE means that any two solutions can be added to get a third solution. For the boundary conditions of a vibrating string of length $L$, i.e. $u(0,t)=u(L,t)=0$, the solutions are of the form:
 
-$$u(x,t)=A\sin\left(\frac{n\pi x}{L}\right)\sin\left(\omega t\right)\;\;\;\;n=1, 2, 3\dots$$
+$$u(x,t)=A\sin\left(\frac{n\pi x}{L}\right)\sin\left(\omega t\right)$$
+
+$$n=1, 2, 3\dots$$
 
 The important takeaway from this is that any solution of the wave equation can be expressed as a sum of sine-wave-like solutions. Each possible value of $n$ is called a *harmonic*.
 
