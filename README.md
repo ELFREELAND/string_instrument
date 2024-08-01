@@ -10,23 +10,23 @@ Waves in a string are traditionally represented by the *wave equation*, a 2nd-or
 
 $$\frac{\partial^2u}{\partial t^2}=c^2\frac{\partial^2u}{\partial x^2}$$
 
-$u(x,t)$ represents the displacement of the string at position $x$, time $t$. This equation relates the acceleration of the string to its curvature. The constant $c$ is the propagation speed of a wave in the string, and it is equal to the square root of the tension divided by the linear density of the string:
+$u(x,t)$ represents the displacement of the string at position $x$, time $t$. The left side of the equation represents the acceleration of the string, and the right side is related to the curvature of the string. You should read this as: "the acceleration of a point on the string is proportional to the curvature of the string at that point". The constant $c$ is the propagation speed of a wave in the string, and it is equal to the square root of the tension divided by the linear density of the string:
 
 $$c=\sqrt{\frac{T}{\rho}}$$
 
-This equation can be solved without too much trouble (see any introductory physics or differential equations textbook). The fact that this is a linear PDE means that any two solutions can be added to get a third solution. For the boundary conditions of a vibrating string of length $L$, i.e. $u(0,t)=u(L,t)=0$, the solutions are of the form:
+This equation can be solved without too much trouble (see any introductory physics or differential equations textbook). For a string that is fixed at both ends, the boundary conditions are stated $u(0,t)=u(L,t)=0$, and solutions are of the form:
 
 $$u(x,t)=A\sin\left(\frac{n\pi x}{L}\right)\sin\left(\omega t\right)$$
 
 $$n=1, 2, 3\dots$$
 
-The important takeaway from this is that any solution of the wave equation can be expressed as a sum of sine-wave-like solutions. Each possible value of $n$ is called a *harmonic*.
+The fact that this is a linear PDE means that any two solutions can be added to get a third solution. The important takeaway from this is that any solution of the wave equation can be expressed as a sum of sine-wave-like solutions. Each possible value of $n$ is called a *harmonic*.
 
 If we introduce damping into the system, the classic wave equation becomes:
 
 $$\frac{\partial^2u}{\partial t^2}=c^2\frac{\partial^2u}{\partial x^2}-\mu(x)\frac{\partial u}{\partial t}$$
 
-where $\mu$ represents the strength of damping. The variation of $\mu$ with $x$ is important, since selectively damping the strings allows the musician to vary the tone of the instrument.
+where $\mu$ represents the strength of damping. You should read this as "the acceleration of the string is proportional to the curvature of the string, minus some friction which varies with how fast the string is vibrating". The variation of $\mu$ with $x$ is important, since selectively damping the strings allows the musician to vary the tone of the instrument.
 
 ## The system
 
@@ -38,7 +38,13 @@ The origin of the x-axis is at the *nut*, where the strings enter the neck. The 
 
 The oval-shaped protrusion to the left of the bridge is the *pickup*, an device which uses electromagnetic induction to convert the vibration of the strings into an electrical signal. We will get an "electrical signal" from our simulation by sampling the displacement of the string at a single point.
 
-## Initial condition
+The fundamental frequency of a vibrating string, $f_0$, is related to the wavelength $\frac{1}{L}$ and the wave speed $c$ by:
+
+$$f_0=\frac{c}{2L}=\frac{\sqrt{T}}{2L\sqrt{\rho}}$$
+
+this is known as *Mersenne's law*. The fundamental frequency of my bass's E string is 41.2 Hz, the string is 30 inches or 0.762 m long, and the manufacturer quotes the tension at 29.6 pounds or 131.67 Newtons, which gives a linear density of 0.033 kg/m.
+
+### Initial condition
 
 There are a number of ways to set a string in motion. The simplest of these involve pulling on the string at a single point and releasing it, meaning the initial condition of the freely-vibrating string looks like a triangle:
 
@@ -52,7 +58,7 @@ Alternatively, instead of pulling and releasing the string, we can quickly strik
 
 ![image](example_graphs/p0_h.png)
 
-## Damping
+### Damping
 
 The effect of damping on the string's behavior is one of the more interesting things to investigate here. We'll look at two important cases: palm muting and harmonics.
 
@@ -80,7 +86,7 @@ $$\frac{d^2u_i}{dt^2}=c^2\frac{u_{i+1}+u_{i-1}-2u_i}{\Delta x^2}-\mu_i\frac{du_i
 
 If the displacement of particle $i$ is exactly halfway between its neighbors, it will experience zero acceleration (save for that caused by damping). If its displacement is greater or less than the average of its neighbors, it will experience an acceleration towards their average. The particle will also experience an acceleration proportional to the magnitude of its velocity and opposite its direction, due to damping.
 
-We have replaced our single 2nd-order PDE with a system of $n$ 2nd-order ODEs. However, the solver we'll be using only operates on 1st-order equations. To proceed further, we'll need to turn $n$ 2nd-order ODEs into $2n$ 1st-order ODEs.
+We have replaced our single 2nd-order PDE with a system of 2nd-order ODEs. However, the solver we'll be using only operates on 1st-order equations. To proceed further, we'll need to turn our system of 2nd-order ODEs into twice as many 1st-order ODEs.
 
 We can do this with the following substitution:
 
@@ -88,4 +94,9 @@ $$v_i=\frac{du_i}{dt}$$
 
 $$\frac{dv_i}{dt}=\frac{T}{\rho}\frac{u_{i+1}+u_{i-1}-2u_i}{\Delta x^2}-\mu_i v_i$$
 
-We will have $n$ copies of the first equation, and $n$ copies of the second.
+for every point on the string, we will have one copy of each of the above equations. I have chosen to use 500 points, meaning the solver will have to chew through 1000 first-order ODEs. For those curious, the solver will be using a 3(2) Runge-Kutta method[^1].
+
+## The results
+
+## notes
+[^1]: https://doi.org/10.1016/0893-9659(89)90079-7
