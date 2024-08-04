@@ -4,3 +4,5 @@
 *.dat
 #ignore audio files
 *.wav
+#ignore gifs output from an.py
+*.gif

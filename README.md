@@ -54,7 +54,7 @@ We can choose to pluck the string close to the bridge or closer to the middle, w
 
 ![image](example_graphs/p0_n.png)
 
-Alternatively, instead of pulling and releasing the string, we can quickly strike it. This is a common technique among bass players, both upright and electric; and it's also the mechanism behind the sound of a piano. This condition can be modelled by zero initial displacement, but a local spike in initial velocity:
+Alternatively, instead of pulling and releasing the string, we can quickly strike it. This is a common technique among bass players, both upright and electric; and it's also the mechanism behind the sound of a piano. This condition can be modeled by zero initial displacement, but a local spike in initial velocity:
 
 ![image](example_graphs/p0_h.png)
 
@@ -96,7 +96,13 @@ $$\frac{dv_i}{dt}=\frac{T}{\rho}\frac{u_{i+1}+u_{i-1}-2u_i}{\Delta x^2}-\mu_i v_
 
 for every point on the string, we will have one copy of each of the above equations. I have chosen to use 500 points, meaning the solver will have to chew through 1000 first-order ODEs. For those curious, the solver will be using a 3(2) Runge-Kutta method[^1].
 
-## The results
+`simulation.ipynb` contains the code to simulate the string and output the results to a file.
+
+`analysis.ipynb` contains the code to visualize the results and view waveforms and frequency spectra.
+
+`audio.ipynb` contains code to output data to .wav audio files.
+
+`an.py` contains code to render animations of the strings. you need to run it in the command line, as `python an.py [data set]` with a data set output from `simulation.ipynb`.
 
 ## notes
 [^1]: https://doi.org/10.1016/0893-9659(89)90079-7
